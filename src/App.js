@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useReducer, useState } from 'react';
+import { todoReducer, initialTodoList } from './reducers/todoreducer'
 import './App.css';
+import TodoList from './TodoList'
 
 function App() {
+  const [todoState, dispatchTodo] = useReducer(todoReducer, initialTodoList)
+  const [formState, setFormState] = useState();
+  
+  const handleSubmit = event => {
+    event.preventDefault()
+    console.log("handleSubmit", formState)
+    dispatchTodo({type: 'ADD_TODO', payload: formState})
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* {todoState.list.map(element => {
+        return <h3>{element.task}</h3>
+      })}
+      <form onSubmit={handleSubmit}>
+        <input onChange={event => {setFormState(event.target.value)}} placeholder="New todo"></input>
+      </form> */}
+      <TodoList todoData={todoState.list} dispatch={dispatchTodo}/>
     </div>
   );
 }
