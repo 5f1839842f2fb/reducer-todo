@@ -12,6 +12,9 @@ class TodoList extends React.Component {
     }
   }
 
+  componentWillReceiveProps = props => {
+    this.setState({todoData: props.todoData})
+  }
   addTodo = todo => {
     this.props.dispatch({type: 'ADD_TODO', payload: todo})
   }

@@ -2,14 +2,19 @@ export const todoReducer = (state, action) => {
   let newState = {...state};  
   console.log("reducer", state, action)
   if (action.type === 'ADD_TODO') {
+    return {
+      list: [...state.list, {task: action.payload, completed: false}]
+    }
     newState.list.push({task: action.payload})
   } else 
   if (action.type === 'TOGGLE_COMPLETED') {
-    const index = newState.list.findIndex(element => element.task === action.payload)
-    if(newState.list[index].completed === true) {
-      newState.list[index] = {...newState.list[index], completed: false}
-    } else {
-      newState.list[index] = {...newState.list[index], completed: true}
+    return {
+      list: state.list.map(element => {
+        if (element.task === action.payload) {
+          return {...element, completed: !element.completed}
+        }
+        return element
+      })
     }
   }
   return newState
